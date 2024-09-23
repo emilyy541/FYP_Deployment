@@ -39,9 +39,13 @@ feature_13 = 0.0
 location_mapping = {'Homer': 1, 'Seldovia': 0}
 location_feature = location_mapping[site]
 
-# Combine all features into an array
-input_features = np.array([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
-                            feature_12, feature_13, location_feature]])
+# Create the input features DataFrame with the same structure as during model training
+input_features_df = pd.DataFrame([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
+                                   feature_12, feature_13, location_feature]], columns=feature_names)
+
+# Debugging: Print the input features to check their structure
+st.write("Input Features DataFrame:")
+st.write(input_features_df)
 
 # Define the threshold values (as required)
 thresholds = {
