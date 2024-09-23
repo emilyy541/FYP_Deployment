@@ -39,20 +39,9 @@ feature_13 = 0.0
 location_mapping = {'Homer': 1, 'Seldovia': 0}
 location_feature = location_mapping[site]
 
-# Define the feature names and create a DataFrame
-feature_names = [
-    'Temperature (°C)', 'Salinity (Sal)', 'Dissolved Oxygen (mg/L)', 'Depth (m)', 
-    'pH', 'Turbidity (NTU)', 'Chlorophyll Fluorescence', 
-    'Engineered Feature 1', 'Engineered Feature 2', 'Location Feature'
-]
-
-# Create the input features DataFrame with the same structure as during model training
-input_features_df = pd.DataFrame([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
-                                   feature_12, feature_13, location_feature]], columns=feature_names)
-
-# Debugging: Print the input features to check their structure
-st.write("Input Features DataFrame:")
-st.write(input_features_df)
+# Combine all features into an array
+input_features = np.array([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
+                            feature_12, feature_13, location_feature]])
 
 # Define the threshold values (as required)
 thresholds = {
@@ -71,6 +60,7 @@ def classify_variable_level(value, variable):
         return "Moderate"
     else:  # Heavy Pollution
         return "Heavy"
+
 
 def classify_overall_pollution(individual_status):
     """Classify overall nutrient pollution based on all variables."""
@@ -111,15 +101,14 @@ if st.button('Predict Current Levels'):
     individual_status = {}
     
     # Debugging: Print the input features
-    st.write("Input Features for Prediction:")
-    st.write(input_features_df)
+    print("Input Features: ", input_features)
     
     for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
-        # Make predictions for each target variable using DataFrame
-        predictions[target] = rf_models[target].predict(input_features_df)[0]
+        # Make predictions for each target variable
+        predictions[target] = rf_models[target].predict(input_features)[0]
         
         # Debugging: Print predictions
-        st.write(f"Prediction for {target}: {predictions[target]}")
+        print(f"Prediction for {target}: {predictions[target]}")
         
         # Classify the prediction based on thresholds
         individual_status[target] = classify_variable_level(predictions[target], target)
@@ -129,15 +118,13 @@ if st.button('Predict Current Levels'):
         st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {level}")
     
     # Debugging: Check the individual classification status
-    st.write("Individual Status:")
-    st.write(individual_status)
+    print("Individual Status: ", individual_status)
     
     # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
     
     # Debugging: Print the overall pollution level
-    st.write("Overall Pollution:")
-    st.write(overall_pollution)
+    print("Overall Pollution: ", overall_pollution)
     
     # Store prediction in history
     current_prediction = {
