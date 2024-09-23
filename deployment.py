@@ -54,7 +54,7 @@ thresholds = {
 # Pollution Classification Logic
 def classify_variable_level(value, variable):
     """Classify each variable based on its level with dynamic adjustment."""
-    if value <= thresholds[variable]:  # Light Pollution
+    if value < thresholds[variable]:  # Light Pollution
         return "Light"
     elif value <= thresholds[variable] * 1.2: # Custom range for Moderate
         return "Moderate"
