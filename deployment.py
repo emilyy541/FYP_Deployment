@@ -31,16 +31,19 @@ feature_9 = st.number_input('pH', value=0.0, step=0.1)
 feature_10 = st.number_input('Turbidity (NTU)', value=0.0, step=0.1)         
 feature_11 = st.number_input('Chlorophyll Fluorescence', value=0.0, step=0.1) 
 
+# Placeholder values for engineered features
+feature_12 = 0.0  
+feature_13 = 0.0  
+
 # Convert location to numerical value if needed (encode location)
 location_mapping = {'Homer': 1, 'Seldovia': 0}
 location_feature = location_mapping[site]
 
-# Combine all features into an array and ensure update every time user changes input
-def update_input_features():
-    return np.array([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
-                      0.0, 0.0, location_feature]])
+# Combine all features into an array
+input_features = np.array([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
+                            feature_12, feature_13, location_feature]])
 
-# Define the threshold values (based on the 75th percentile from the dataset summary)
+# Define the threshold values (as required)
 thresholds = {
     'orthophosphate': 0.030,  # Adjusted based on 75th percentile
     'ammonium': 0.028,        # Adjusted based on 75th percentile
@@ -50,13 +53,14 @@ thresholds = {
 
 # Pollution Classification Logic
 def classify_variable_level(value, variable):
-    """Classify each variable based on its level."""
-    if value <= thresholds[variable]:
+    """Classify each variable based on its level with dynamic adjustment."""
+    if value <= thresholds[variable]:  # Light Pollution
         return "Light"
-    elif value <= (thresholds[variable] * 1.5):  # Custom range for moderate
+    elif value <= thresholds[variable] * 1.2:  # Custom range for Moderate
         return "Moderate"
-    else:
+    else:  # Heavy Pollution
         return "Heavy"
+
 
 def classify_overall_pollution(individual_status):
     """Classify overall nutrient pollution based on all variables."""
@@ -92,21 +96,35 @@ if 'history' not in st.session_state:
 if st.button('Predict Current Levels'):
     st.subheader(f'Predicted Nutrient Pollution Levels:')
     
-    # Update input features with user input values
-    input_features = update_input_features()
-    
     # Predict current nutrient pollution levels using Random Forest models
     predictions = {}
     individual_status = {}
+    
+    # Debugging: Print the input features
+    print("Input Features: ", input_features)
+    
     for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
+        # Make predictions for each target variable
         predictions[target] = rf_models[target].predict(input_features)[0]
+        
+        # Debugging: Print predictions
+        print(f"Prediction for {target}: {predictions[target]}")
+        
+        # Classify the prediction based on thresholds
         individual_status[target] = classify_variable_level(predictions[target], target)
     
     # Display individual predictions and levels
     for target, level in individual_status.items():
         st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {level}")
     
+    # Debugging: Check the individual classification status
+    print("Individual Status: ", individual_status)
+    
+    # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
+    
+    # Debugging: Print the overall pollution level
+    print("Overall Pollution: ", overall_pollution)
     
     # Store prediction in history
     current_prediction = {
@@ -155,7 +173,7 @@ if st.button(f'Prediction of Nutrient Pollution Levels in Next {num_years} Years
     st.subheader(f'Time Series Predictions for Nutrient Pollution for Next {num_years} Years')
 
     # Prepare the input for LSTM (reshape as required by LSTM input)
-    lstm_input = update_input_features().reshape((input_features.shape[0], 1, input_features.shape[1]))
+    lstm_input = input_features.reshape((input_features.shape[0], 1, input_features.shape[1]))
 
     # Predict the next 'num_years' using LSTM
     lstm_predictions = lstm_model.predict(lstm_input)
