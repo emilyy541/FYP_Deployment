@@ -22,7 +22,7 @@ st.write("""
 # Location selection for site
 site = st.selectbox('Select Site Location', ['Homer', 'Seldovia'])
 
-# Inputs for the feature variables (using number_input to ensure they are floats)
+# Inputs for the feature variables
 feature_5 = st.number_input('Temperature (°C)', value=0.0, step=0.1)         
 feature_6 = st.number_input('Salinity (Sal)', value=0.0, step=0.1)           
 feature_7 = st.number_input('Dissolved Oxygen (mg/L)', value=0.0, step=0.1) 
@@ -54,11 +54,11 @@ thresholds = {
 # Pollution Classification Logic
 def classify_variable_level(value, variable):
     """Classify each variable based on its level with dynamic adjustment."""
-    if value < thresholds[variable]:  # Light Pollution
+    if value <= thresholds[variable]:  
         return "Light"
-    elif value <= thresholds[variable] * 1.2: # Custom range for Moderate
+    elif value <= thresholds[variable] * 1.2:  
         return "Moderate"
-    else:  # Heavy Pollution
+    else:  
         return "Heavy"
 
 
