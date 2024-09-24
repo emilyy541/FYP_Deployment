@@ -43,12 +43,12 @@ location_feature = location_mapping[site]
 input_features = np.array([[feature_5, feature_6, feature_7, feature_8, feature_9, feature_10, feature_11,
                             feature_12, feature_13, location_feature]])
 
-# Define the threshold values (as required)
+# Define the threshold values 
 thresholds = {
-    'orthophosphate': 0.030,  # Adjusted based on 75th percentile
-    'ammonium': 0.028,        # Adjusted based on 75th percentile
-    'nitrite_nitrate': 0.158, # Adjusted based on 75th percentile
-    'chlorophyll': 1.865      # Adjusted based on 75th percentile
+    'orthophosphate': 0.028,  # Adjusted based on 75th percentile
+    'ammonium': 0.026,        # Adjusted based on 75th percentile
+    'nitrite_nitrate': 0.138, # Adjusted based on 75th percentile
+    'chlorophyll': 1.893      # Adjusted based on 75th percentile
 }
 
 # Pollution Classification Logic
