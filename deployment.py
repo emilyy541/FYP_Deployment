@@ -26,7 +26,7 @@ site = st.selectbox('Select Site Location', ['Homer', 'Seldovia'])
 feature_5 = st.number_input('Temperature (°C)', value=0.0, step=0.1, help = 'Water Temperature')         
 feature_6 = st.number_input('Salinity (Sal)', value=0.0, step=0.1, help = 'Salt Concentration in Water')           
 feature_7 = st.number_input('Dissolved Oxygen (mg/L)', value=0.0, step=0.1, help = 'Amount of Oxygen Available') 
-feature_8 = st.number_input('Depth (m)', value=0.0, step=0.1, help = 'Measurement Depth in Wayer'),                
+feature_8 = st.number_input('Depth (m)', value=0.0, step=0.1, help = 'Measurement Depth in Wayer')                
 feature_9 = st.number_input('pH', value=0.0, step=0.1, help = 'Acidity or Alkanity of Water')                       
 feature_10 = st.number_input('Turbidity (NTU)', value=0.0, step=0.1, help = 'Water Clarity')         
 feature_11 = st.number_input('Chlorophyll Fluorescence', value=0.0, step=0.1, help = 'Algae Presence Indicator') 
