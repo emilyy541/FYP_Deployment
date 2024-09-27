@@ -103,36 +103,28 @@ if st.button('Predict Current Levels'):
     # Debugging: Print the input features
     print("Input Features: ", input_features)
     
-    #for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
+    for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
         # Make predictions for each target variable
-     #   predictions[target] = rf_models[target].predict(input_features)[0]
+        predictions[target] = rf_models[target].predict(input_features)[0]
         
         # Debugging: Print predictions
-      #  print(f"Prediction for {target}: {predictions[target]}")
+        print(f"Prediction for {target}: {predictions[target]}")
         
         # Classify the prediction based on thresholds
-       # individual_status[target] = classify_variable_level(predictions[target], target)
-    
-    # Display individual predictions and levels
-for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
-    # Make predictions for each target variable
-    predictions[target] = rf_models[target].predict(input_features)[0]
-    
-    # Classify the prediction based on thresholds
-    individual_status[target] = classify_variable_level(predictions[target], target)
+        individual_status[target] = classify_variable_level(predictions[target], target)
     
     # Display individual predictions, levels, and descriptions
-    st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {individual_status[target]}")
-    
-    # Add a description for each target variable
-    if target == 'orthophosphate':
-        st.caption("Orthophosphate: A form of phosphorus essential for aquatic life. Excess can lead to eutrophication.")
-    elif target == 'ammonium':
-        st.caption("Ammonium: A nutrient that is crucial for plant growth, but high concentrations can be toxic to aquatic life and contribute to the proliferation of algae.")
-    elif target == 'nitrite_nitrate':
-        st.caption("Nitrite/Nitrate: Important nutrients in aquatic ecosystems. Elevated levels can lead to reduced oxygen levels and water quality degradation.")
-    elif target == 'chlorophyll':
-        st.caption("Chlorophyll: An indicator of the amount of algae in the water. High levels suggest exessive algal growth")
+        st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {individual_status[target]}")
+        
+        # Add description for each target variable
+        if target == 'orthophosphate':
+            st.caption("Orthophosphate: A form of phosphorus essential for aquatic life. Excess can lead to eutrophication, promoting excessive algae growth that depletes oxygen levels.")
+        elif target == 'ammonium':
+            st.caption("Ammonium: A nutrient that is crucial for plant growth, but high concentrations can be toxic to aquatic life and contribute to the proliferation of algae.")
+        elif target == 'nitrite_nitrate':
+            st.caption("Nitrite/Nitrate: Important nutrients in aquatic ecosystems. Elevated levels can cause algal blooms, leading to reduced oxygen levels and water quality degradation.")
+        elif target == 'chlorophyll':
+            st.caption("Chlorophyll: An indicator of the amount of algae in the water. High levels suggest excessive algal growth, which can lead to harmful algal blooms (HABs).")
 
     # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
