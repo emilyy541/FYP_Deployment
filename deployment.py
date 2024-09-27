@@ -23,13 +23,20 @@ st.write("""
 site = st.selectbox('Select Site Location', ['Homer', 'Seldovia'])
 
 # Inputs for the feature variables
-feature_5 = st.number_input('Temperature (°C)', value=0.0, step=0.1, help = 'Water Temperature')         
-feature_6 = st.number_input('Salinity (Sal)', value=0.0, step=0.1, help = 'Salt Concentration in Water')           
-feature_7 = st.number_input('Dissolved Oxygen (mg/L)', value=0.0, step=0.1, help = 'Amount of Oxygen Available') 
-feature_8 = st.number_input('Depth (m)', value=0.0, step=0.1, help = 'Measurement Depth in Wayer')                
-feature_9 = st.number_input('pH', value=0.0, step=0.1, help = 'Acidity or Alkanity of Water')                       
-feature_10 = st.number_input('Turbidity (NTU)', value=0.0, step=0.1, help = 'Water Clarity')         
-feature_11 = st.number_input('Chlorophyll Fluorescence', value=0.0, step=0.1, help = 'Algae Presence Indicator') 
+feature_5 = st.number_input('Temperature (°C)', value=0.0, step=0.1)         
+st.caption('Water Temperature')
+feature_6 = st.number_input('Salinity (Sal)', value=0.0, step=0.1)
+st.caption('Salt Concentration in Water')
+feature_7 = st.number_input('Dissolved Oxygen (mg/L)', value=0.0, step=0.1) 
+st.caption('Amount of Oxygen Available')
+feature_8 = st.number_input('Depth (m)', value=0.0, step=0.1)   
+st.caption('Measurement Depth in Water')
+feature_9 = st.number_input('pH', value=0.0, step=0.1)  
+st.caption('Acidity or Alkanity of Water')
+feature_10 = st.number_input('Turbidity (NTU)', value=0.0, step=0.1) 
+st.caption('Water Clarity')
+feature_11 = st.number_input('Chlorophyll Fluorescence', value=0.0, step=0.1) 
+st.caption('Algae Presence Indicator')
 
 # Placeholder values for engineered features
 feature_12 = 0.0  
@@ -118,13 +125,13 @@ if st.button('Predict Current Levels'):
         
         # Add description for each target variable
         if target == 'orthophosphate':
-            st.caption("Orthophosphate: A form of phosphorus essential for aquatic life. Excess can lead to eutrophication, promoting excessive algae growth that depletes oxygen levels.")
+            st.caption("A form of phosphorus essential for aquatic life. Excess can lead to eutrophication.")
         elif target == 'ammonium':
-            st.caption("Ammonium: A nutrient that is crucial for plant growth, but high concentrations can be toxic to aquatic life and contribute to the proliferation of algae.")
+            st.caption("A nutrient that is crucial for plant growth, but high concentrations can be toxic to aquatic life and contribute to the proliferation of algae.")
         elif target == 'nitrite_nitrate':
-            st.caption("Nitrite/Nitrate: Important nutrients in aquatic ecosystems. Elevated levels can cause algal blooms, leading to reduced oxygen levels and water quality degradation.")
+            st.caption("Important nutrients but elevate levels can cause algal blooms, leading to reduced oxygen levels and water quality degradation.")
         elif target == 'chlorophyll':
-            st.caption("Chlorophyll: An indicator of the amount of algae in the water. High levels suggest excessive algal growth, which can lead to harmful algal blooms (HABs).")
+            st.caption("An indicator of the amount of algae in the water. High levels suggest excessive algal growth.")
 
     # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
