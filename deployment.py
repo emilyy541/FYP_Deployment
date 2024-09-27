@@ -114,25 +114,25 @@ if st.button('Predict Current Levels'):
         individual_status[target] = classify_variable_level(predictions[target], target)
     
     # Display individual predictions and levels
-    for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
-        # Make predictions for each target variable
-        predictions[target] = rf_models[target].predict(input_features)[0]
-        
-        # Classify the prediction based on thresholds
-        individual_status[target] = classify_variable_level(predictions[target], target)
-        
-        # Display individual predictions and levels with information
-        st.write(f"**{target.capitalize()}:** {predictions[target]}")
-        
-        # Add info about each target variable
-        if target == 'orthophosphate':
-            st.info("Orthophosphate: A form of phosphorus essential for aquatic life, but excess can lead to eutrophication.")
-        elif target == 'ammonium':
-            st.info("Ammonium: A nutrient that, in high concentrations, can be toxic to aquatic life and contribute to algae growth.")
-        elif target == 'nitrite_nitrate':
-            st.info("Nitrite/Nitrate: Key nutrients that can fuel algal blooms, leading to oxygen depletion and water quality issues.")
-        elif target == 'chlorophyll':
-            st.info("Chlorophyll: An indicator of algal biomass; high levels may indicate excessive algae growth and potential HABs.")
+for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
+    # Make predictions for each target variable
+    predictions[target] = rf_models[target].predict(input_features)[0]
+    
+    # Classify the prediction based on thresholds
+    individual_status[target] = classify_variable_level(predictions[target], target)
+    
+    # Display individual predictions, levels, and descriptions
+    st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {individual_status[target]}")
+    
+    # Add a description for each target variable
+    if target == 'orthophosphate':
+        st.caption("Orthophosphate: A form of phosphorus essential for aquatic life. Excess can lead to eutrophication.")
+    elif target == 'ammonium':
+        st.caption("Ammonium: A nutrient that is crucial for plant growth, but high concentrations can be toxic to aquatic life and contribute to the proliferation of algae.")
+    elif target == 'nitrite_nitrate':
+        st.caption("Nitrite/Nitrate: Important nutrients in aquatic ecosystems. Elevated levels can lead to reduced oxygen levels and water quality degradation.")
+    elif target == 'chlorophyll':
+        st.caption("Chlorophyll: An indicator of the amount of algae in the water. High levels suggest exessive algal growth")
 
     # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
