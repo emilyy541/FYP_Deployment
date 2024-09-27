@@ -122,7 +122,7 @@ if st.button('Predict Current Levels'):
         individual_status[target] = classify_variable_level(predictions[target], target)
         
         # Display individual predictions and levels with information
-        st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {level}")
+        st.write(f"**{target.capitalize()}:** {predictions[target]}")
         
         # Add info about each target variable
         if target == 'orthophosphate':
