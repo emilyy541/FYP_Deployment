@@ -23,13 +23,13 @@ st.write("""
 site = st.selectbox('Select Site Location', ['Homer', 'Seldovia'])
 
 # Inputs for the feature variables
-feature_5 = st.number_input('Temperature (°C)', value=0.0, step=0.1)         
-feature_6 = st.number_input('Salinity (Sal)', value=0.0, step=0.1)           
-feature_7 = st.number_input('Dissolved Oxygen (mg/L)', value=0.0, step=0.1) 
-feature_8 = st.number_input('Depth (m)', value=0.0, step=0.1)                
-feature_9 = st.number_input('pH', value=0.0, step=0.1)                       
-feature_10 = st.number_input('Turbidity (NTU)', value=0.0, step=0.1)         
-feature_11 = st.number_input('Chlorophyll Fluorescence', value=0.0, step=0.1) 
+feature_5 = st.number_input('Temperature (°C)', value=0.0, step=0.1, help = 'Water Temperature')         
+feature_6 = st.number_input('Salinity (Sal)', value=0.0, step=0.1, help = 'Salt Concentration in Water')           
+feature_7 = st.number_input('Dissolved Oxygen (mg/L)', value=0.0, step=0.1, help = 'Amount of Oxygen Available') 
+feature_8 = st.number_input('Depth (m)', value=0.0, step=0.1, help = 'Measurement Depth in Wayer'),                
+feature_9 = st.number_input('pH', value=0.0, step=0.1, help = 'Acidity or Alkanity of Water')                       
+feature_10 = st.number_input('Turbidity (NTU)', value=0.0, step=0.1, help = 'Water Clarity')         
+feature_11 = st.number_input('Chlorophyll Fluorescence', value=0.0, step=0.1, help = 'Algae Presence Indicator') 
 
 # Placeholder values for engineered features
 feature_12 = 0.0  
@@ -119,6 +119,19 @@ if st.button('Predict Current Levels'):
     
     # Debugging: Check the individual classification status
     print("Individual Status: ", individual_status)
+
+    # Display individual predictions and levels with information
+        st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {level}")
+        
+        # Add info about each target variable
+        if target == 'orthophosphate':
+            st.info("Orthophosphate: A form of phosphorus essential for aquatic life, but excess can lead to eutrophication.")
+        elif target == 'ammonium':
+            st.info("Ammonium: A nutrient that, in high concentrations can be toxic to aquatic life and contribute to algae growth.")
+        elif target == 'nitrite_nitrate':
+            st.info("Nitrite/Nitrate: Key nutrients that can fuel algal blooms, leading to oxygen depletion and water quality issues.")
+        elif target == 'chlorophyll':
+            st.info("Chlorophyll: An indicator of algal biomass; high levels may indicate excessive algae growth and potential HABs.")
     
     # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
