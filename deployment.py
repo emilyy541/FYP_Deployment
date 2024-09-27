@@ -103,15 +103,15 @@ if st.button('Predict Current Levels'):
     # Debugging: Print the input features
     print("Input Features: ", input_features)
     
-    for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
+    #for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
         # Make predictions for each target variable
-        predictions[target] = rf_models[target].predict(input_features)[0]
+     #   predictions[target] = rf_models[target].predict(input_features)[0]
         
         # Debugging: Print predictions
-        print(f"Prediction for {target}: {predictions[target]}")
+      #  print(f"Prediction for {target}: {predictions[target]}")
         
         # Classify the prediction based on thresholds
-        individual_status[target] = classify_variable_level(predictions[target], target)
+       # individual_status[target] = classify_variable_level(predictions[target], target)
     
     # Display individual predictions and levels
 for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
