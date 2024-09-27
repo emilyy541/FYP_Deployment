@@ -114,25 +114,26 @@ if st.button('Predict Current Levels'):
         individual_status[target] = classify_variable_level(predictions[target], target)
     
     # Display individual predictions and levels
-    for target, level in individual_status.items():
-        st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {level}")
-    
-    # Debugging: Check the individual classification status
-    print("Individual Status: ", individual_status)
-
-    # Display individual predictions and levels with information
+    for target in ['orthophosphate', 'ammonium', 'nitrite_nitrate', 'chlorophyll']:
+        # Make predictions for each target variable
+        predictions[target] = rf_models[target].predict(input_features)[0]
+        
+        # Classify the prediction based on thresholds
+        individual_status[target] = classify_variable_level(predictions[target], target)
+        
+        # Display individual predictions and levels with information
         st.write(f"**{target.capitalize()} (mg/L):** {predictions[target]:.2f} - {level}")
         
         # Add info about each target variable
         if target == 'orthophosphate':
             st.info("Orthophosphate: A form of phosphorus essential for aquatic life, but excess can lead to eutrophication.")
         elif target == 'ammonium':
-            st.info("Ammonium: A nutrient that, in high concentrations can be toxic to aquatic life and contribute to algae growth.")
+            st.info("Ammonium: A nutrient that, in high concentrations, can be toxic to aquatic life and contribute to algae growth.")
         elif target == 'nitrite_nitrate':
             st.info("Nitrite/Nitrate: Key nutrients that can fuel algal blooms, leading to oxygen depletion and water quality issues.")
         elif target == 'chlorophyll':
             st.info("Chlorophyll: An indicator of algal biomass; high levels may indicate excessive algae growth and potential HABs.")
-    
+
     # Classify overall pollution based on individual status
     overall_pollution = classify_overall_pollution(individual_status)
     
